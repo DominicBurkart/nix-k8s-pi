@@ -2,14 +2,14 @@
   imports = [
     ## Uncomment at most one of the following to select the target system:
     # ./generic-aarch64 # (note: this is the same as 'rpi3')
-    # ./rpi4
-    ./rpi3
+    ./rpi4
+    # ./rpi3
   ];
 
   # The installer starts with a "nixos" user to allow installation, so add the SSH key to
   # that user. Note that the key is, at the time of writing, put in `/etc/ssh/authorized_keys.d`
   users.extraUsers.nixos.openssh.authorizedKeys.keys = [
-    "ssh-ed25519 ..."
+    "INSERT_SSH_KEY"
   ];
 
   # bzip2 compression takes loads of time with emulation, skip it. Enable this if you're low
@@ -22,7 +22,7 @@
   systemd.services.sshd.wantedBy = lib.mkOverride 40 [ "multi-user.target" ];
 
   # Enable OpenSSH out of the box.
-  services.sshd.enabled = true;
+  services.sshd.enable = true;
 
   # Wireless networking (1). You might want to enable this if your Pi is not attached via Ethernet.
   #networking.wireless = {
@@ -40,4 +40,5 @@
 
   # NTP time sync.
   #services.timesyncd.enable = true;
+
 }
