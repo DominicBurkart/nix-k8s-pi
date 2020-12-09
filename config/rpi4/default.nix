@@ -47,7 +47,7 @@
       };
       "/" = {
           device = "/dev/disk/by-label/NIXOS_SD";
-          fsType = "ext4";
+          fsType = "zfs";
       };
   };
 }

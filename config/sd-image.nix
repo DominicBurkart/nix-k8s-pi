@@ -1,16 +1,19 @@
-{ lib, ... }: {
+{ lib, pkgs, ... }: {
   imports = [
     ## Uncomment at most one of the following to select the target system:
     # ./generic-aarch64 # (note: this is the same as 'rpi3')
-    # ./rpi4
-    ./rpi3
+    ./rpi4
+    # ./rpi3
   ];
 
-  # The installer starts with a "nixos" user to allow installation, so add the SSH key to
-  # that user. Note that the key is, at the time of writing, put in `/etc/ssh/authorized_keys.d`
-  users.extraUsers.nixos.openssh.authorizedKeys.keys = [
-    "ssh-ed25519 ..."
-  ];
+  # generate a new user
+  users.users.INSERT_USER_NAME = {
+    isNormalUser = true;
+    home = "/home/INSERT_USER_NAME";
+    shell = pkgs.zsh;
+    extraGroups = [  "wheel" "docker" "lxd" ];
+    openssh.authorizedKeys.keys = [ "INSERT_SSH_KEY" ];
+  };
 
   # bzip2 compression takes loads of time with emulation, skip it. Enable this if you're low
   # on space.
@@ -35,9 +38,22 @@
   #  };
   #};
 
+  # set local ip address (comment out if you don't need this)
+  networking.interfaces.eth0.ipv4.addresses = [ {
+    address = "INSERT_LOCAL_IPV4";
+    prefixLength = 24;
+  } ];
+
   # Wireless networking (2). Enables `wpa_supplicant` on boot.
   #systemd.services.wpa_supplicant.wantedBy = lib.mkOverride 10 [ "default.target" ];
 
   # NTP time sync.
   #services.timesyncd.enable = true;
+
+  # enable docker
+  virtualisation.docker.enable = true;
+
+  # enable lxd
+  virtualisation.lxd.enable = true; # causing a build error rn because criu-3.14 is not aarch64-compatible
+  virtualisation.lxd.zfsSupport = true;
 }
