@@ -173,7 +173,7 @@ both the Pi 3 and Pi 4:
     fileSystems = {
       "/" = {
         device = "/dev/disk/by-label/NIXOS_SD";
-        fsType = "ext4";
+        fsType = "zfs";
       };
     };
     swapDevices = [ { device = "/swapfile"; size = 1024; } ];
@@ -248,7 +248,7 @@ both the Pi 3 and Pi 4:
         };
         "/" = {
             device = "/dev/disk/by-label/NIXOS_SD";
-            fsType = "ext4";
+            fsType = "zfs";
         };
     };
 

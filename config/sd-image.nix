@@ -1,19 +1,24 @@
-{ lib, pkgs, ... }: {
+{ lib, ... }: { # , pkgs ...
   imports = [
     ## Uncomment at most one of the following to select the target system:
     # ./generic-aarch64 # (note: this is the same as 'rpi3')
     ./rpi4
     # ./rpi3
+
+    # ./microk8s_in_lxd
   ];
 
   # generate a new user
-  users.users.INSERT_USER_NAME = {
-    isNormalUser = true;
-    home = "/home/INSERT_USER_NAME";
-    shell = pkgs.zsh;
-    extraGroups = [  "wheel" "docker" "lxd" ];
-    openssh.authorizedKeys.keys = [ "INSERT_SSH_KEY" ];
-  };
+  users.extraUsers.nixos.openssh.authorizedKeys.keys = [ "INSERT_SSH_KEY" ];
+
+  # = {
+  #  INSERT_USER_NAME = {
+  #    extraGroups = [ "wheel" "docker" ];
+  #    isNormalUser = true;
+  #    shell = pkgs.zsh;
+  #    openssh.authorizedKeys.keys = [ "INSERT_SSH_KEY" ];
+  #  }
+  #};
 
   # bzip2 compression takes loads of time with emulation, skip it. Enable this if you're low
   # on space.
@@ -50,10 +55,12 @@
   # NTP time sync.
   #services.timesyncd.enable = true;
 
-  # enable docker
+  # enable lxd
   virtualisation.docker.enable = true;
 
-  # enable lxd
-  virtualisation.lxd.enable = true; # causing a build error rn because criu-3.14 is not aarch64-compatible
-  virtualisation.lxd.zfsSupport = true;
+  # add system packages
+  # environment.systemPackages = [
+  #   wget
+  #   nano
+  # ];
 }

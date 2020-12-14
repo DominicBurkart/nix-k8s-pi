@@ -31,7 +31,5 @@ if [ -n "${DISABLE_ZFS_IN_INSTALLER+x}" ]; then
   patch nixos/modules/profiles/base.nix $HOME/disable-zfs.patch
 fi
 
-echo "forcing criu support for aarch64-linux"
-sed -i '' -e "s/x86_64-linux/aarch64-linux/g" pkgs/os-specific/linux/criu/default.nix
 
 echo "image is ready"
