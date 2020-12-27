@@ -44,10 +44,10 @@
   #};
 
   # set local ip address (comment out if you don't need this)
-  networking.interfaces.eth0.ipv4.addresses = [ {
-    address = "INSERT_LOCAL_IPV4";
-    prefixLength = 24;
-  } ];
+  #networking.interfaces.eth0.ipv4.addresses = [ {
+  #  address = "INSERT_LOCAL_IPV4";
+  #  prefixLength = 24;
+  # } ];
 
   # Wireless networking (2). Enables `wpa_supplicant` on boot.
   #systemd.services.wpa_supplicant.wantedBy = lib.mkOverride 10 [ "default.target" ];
@@ -55,8 +55,8 @@
   # NTP time sync.
   #services.timesyncd.enable = true;
 
-  # enable lxd
-  virtualisation.docker.enable = true;
+  # enable docker
+  # virtualisation.docker.enable = true;
 
   # add system packages
   # environment.systemPackages = [
